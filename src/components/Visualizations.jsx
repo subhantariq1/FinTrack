@@ -7,7 +7,9 @@ function Visualizations({data}) {
             <p>Here you can visualize your expenses.</p>
             {/* Add your visualization components here */}
             <ExpenseChart data={data} />
+            <p> will add more charts</p>
         </div>
+
   );
 }
 
