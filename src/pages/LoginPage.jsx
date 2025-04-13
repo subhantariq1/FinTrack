@@ -1,8 +1,11 @@
 import React from "react";
+import Navbar from "../components/Navbar"
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   return (
     <div>
+      <Navbar/>
       <h1>Login</h1>
       <form>
         <div>
@@ -15,6 +18,7 @@ function LoginPage() {
         </div>
         <button type="submit">Login</button>
       </form>
+      <p>Don't have an account?<button> <Link to="/signup" className="link" >Sign Up</Link></button></p>
     </div>
   );
 }

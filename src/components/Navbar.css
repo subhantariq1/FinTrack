@@ -1,0 +1,16 @@
+.navLinks {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.navbar {
+    display:flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.link {
+    margin-left: 20px;
+    margin-right: 20px;
+}
