@@ -1,0 +1,19 @@
+.signup-containter{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center; /* Center children vertically */
+    height: 80vh;
+    gap: 20px;
+}
+
+.form-container{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+input{
+    margin-left: 1rem;
+}
