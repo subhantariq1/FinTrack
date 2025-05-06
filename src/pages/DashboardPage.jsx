@@ -1,39 +1,31 @@
 import React from "react";
 import { useState } from "react";
 import Visualizations from "../components/Visualizations";
-import Navbar from "../components/Navbar";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 function DashboardPage() {
-  // I need to fetch this user information from the backend
-  // RN we're just gonna hardcode it
-  const [userInfo, setUserInfo] = useState({
-    name: "John Doe",
-    expenses:{
-      January: 300,
-      February: 800,
-      March: 500,
-      April: 35,
-      May: 900,
-      June: 1200,
-      July: 200,
-      August: 83,
-      September: 400,
-      October: 450,
-      November: 300,
-      December: 589,
-    }, 
-  });
+  const { uid } = useParams(); // Get the user ID from the URL parameters
+  const [timePeriod, setTimePeriod] = useState("default");
 
-  // We're gonna need so use prams to get the user id and output the correct user's info
+  const handleTimePeriodChange = (event) => {
+    setTimePeriod(event.target.value);
+  }
+
 
   return (
-    
     <div>
-      <Navbar/>
       <h1>Dashboard</h1>
       <p>Welcome to your dashboard!</p>
-      <Visualizations data = {userInfo}/>
+      <label htmlFor="timeSelection"> Filter by Time Period </label>
+        <select name = "timeSelection" id = "timeSelection" value={timePeriod} onChange={handleTimePeriodChange}>
+          <option value="default">Select Time Period</option>
+          <option>Yearly</option>
+          <option>Monthly</option>
+          <option>Weekly</option>
+        </select>
+      <p>Welcome, user with ID: {uid}</p>
+      <Visualizations data = {{userID: uid, time:timePeriod}}/>
     </div>
   );
 }
