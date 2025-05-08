@@ -1,5 +1,6 @@
 import React from "react";
 import ExpenseChart from "./ExpenseChart";
+
 function Visualizations({data}) {
 
     return (
