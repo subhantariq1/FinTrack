@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import supabase from "../client";
 
-const ExpenseChart = (props) => {
-  const [expenses, setExpenses] = useState([]);
+const IncomeChart = (props) => {
+  const [incomeData, setIncomeData] = useState([]);
   const [dateRangeText, setDateRangeText] = useState("");
 
   useEffect(() => {
-    const fetchExpenses = async () => {
+    const fetchIncome = async () => {
       const uid = props.data.userID;
       const timePeriod = props.data.time?.toLowerCase() || "monthly";
       const today = new Date();
@@ -16,22 +16,17 @@ const ExpenseChart = (props) => {
       if (timePeriod === "yearly") {
         dateFrom = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
       } else if (timePeriod === "weekly") {
-        dateFrom = new Date(today);
-        dateFrom.setDate(today.getDate() - 7);
+        dateFrom = new Date(today.setDate(today.getDate() - 7));
       } else {
-        // default = monthly
-        dateFrom = new Date(today);
-        dateFrom.setDate(today.getDate() - 30);
+        dateFrom = new Date(today.setDate(today.getDate() - 30));
       }
 
-      // Format and display date range
-      const formatDate = (date) => date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      const formatDate = (date) =>
+        date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
       const rangeText =
         timePeriod === "yearly"
-          ? `${dateFrom.toLocaleDateString("en-US", { month: "short", year: "numeric" })} – ${today.toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
-          : timePeriod === "monthly"
-          ? `${formatDate(dateFrom)} – ${formatDate(today)}`
-          : `${formatDate(dateFrom)} – ${formatDate(today)}`;
+          ? `${dateFrom.toLocaleDateString("en-US", { month: "short", year: "numeric" })} – ${new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
+          : `${formatDate(dateFrom)} – ${formatDate(new Date())}`;
       setDateRangeText(rangeText);
 
       const { data, error } = await supabase
@@ -39,10 +34,10 @@ const ExpenseChart = (props) => {
         .select("date, amount")
         .eq("userID", uid)
         .gte("date", dateFrom.toISOString())
-        .lt("amount", 0); // Only negative amounts (expenses)
+        .gt("amount", 0); // Only positive values = income
 
       if (error) {
-        console.error("Error fetching expenses:", error.message);
+        console.error("Error fetching income data:", error.message);
         return;
       }
 
@@ -62,30 +57,30 @@ const ExpenseChart = (props) => {
         grouped[key] = (grouped[key] || 0) + amount;
       });
 
-      const formattedData = Object.entries(grouped).map(([label, total_amount]) => ({
+      const formatted = Object.entries(grouped).map(([label, total_amount]) => ({
         label,
         total_amount,
       }));
 
-      setExpenses(formattedData);
+      setIncomeData(formatted);
     };
 
-    fetchExpenses();
+    fetchIncome();
   }, [props.data.time, props.data.userID]);
 
   return (
     <div>
-      <h2>Expenses Overview ({props.data.time})</h2>
-      <p>{dateRangeText}</p> {/* 👈 Shows actual range */}
-      <BarChart width={1000} height={300} data={expenses}>
+      <h2>Income Overview ({props.data.time})</h2>
+      <p>{dateRangeText}</p>
+      <BarChart width={1000} height={300} data={incomeData}>
         <XAxis dataKey="label" />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar type="monotone" dataKey="total_amount" stroke="#8884d8" />
+        <Bar dataKey="total_amount" fill="#00C49F" name="Total Income" />
       </BarChart>
     </div>
   );
 };
 
-export default ExpenseChart;
+export default IncomeChart;

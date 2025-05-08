@@ -7,10 +7,24 @@
 .navbar {
     display:flex;
     justify-content: space-between;
-    width: 100%;
+    /* width: 100%; */
+    /* border: 2px solid white; */
+    background-color: rgb(28, 28, 28);
 }
 
-.link {
+/* .link {
     margin-left: 20px;
     margin-right: 20px;
+} */
+
+.logo h1 {
+    font-size: 2rem;
 }
+
+
+li {
+    margin: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
