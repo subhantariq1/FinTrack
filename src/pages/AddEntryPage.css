@@ -1,0 +1,65 @@
+.entry-page {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 170px);
+  padding: var(--space-3) 0;
+}
+
+.entry-card {
+  width: min(560px, 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+}
+
+.entry-card h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.entry-subtitle {
+  margin: var(--space-1) 0 var(--space-4);
+  color: var(--text-muted);
+}
+
+.entry-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.entry-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.entry-field label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.entry-field input,
+.entry-field select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--surface);
+  color: var(--text);
+  padding: 0.68rem 0.8rem;
+}
+
+.entry-submit {
+  margin-top: var(--space-1);
+  padding: 0.72rem 0.95rem;
+  border-radius: 10px;
+  color: #f0fdfa;
+  background-color: var(--brand);
+  font-weight: 700;
+}
+
+.entry-submit:hover {
+  background-color: var(--brand-strong);
+}

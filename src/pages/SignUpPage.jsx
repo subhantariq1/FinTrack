@@ -28,17 +28,20 @@ function SignUpPage() {
         <div className="signup-containter">
             <h1>Sign Up</h1>
             <form onSubmit={handleSubmit} className = "form-container">
-                <div>
+                <div className ="input-field">
                 <label htmlFor="email">Email:</label>
                 <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
-                <div>
+                <div className ="input-field">
                 <label htmlFor="password">Password:</label>
                 <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 </div>
                 <button type="submit">Sign Up</button>
             </form>
-            <p>Already have an account?<button> <Link to="/login" className="link" >Login</Link></button></p>
+            <div className="signup-footer">
+                <p>Already have an account?</p>
+                <Link to="/login" className="signup-login-btn">Login</Link>
+            </div>
         </div>
     );
 }

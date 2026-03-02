@@ -4,3 +4,18 @@
     flex-direction: column; /* Stack children vertically */
     justify-content: center; /* Center children vertically */
 }
+
+.solgan{
+    font-size: 4.5rem; /* Larger font size for the slogan */
+    margin-bottom: 20px; /* Space below the slogan */
+}
+
+.title{
+    font-size: 2rem; /* Font size for the title */
+    margin-bottom: 10px; /* Space below the title */
+}
+
+.desc{
+    font-size: 1.2rem; /* Font size for the description */
+    margin-bottom: 30px; /* Space below the description */
+}

@@ -1,31 +1,42 @@
 import React from "react";
 import { useState } from "react";
 import Visualizations from "../components/Visualizations";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useAuth } from "../components/AuthContext";
+import "./DashboardPage.css";
 
 function DashboardPage() {
-  const { uid } = useParams(); // Get the user ID from the URL parameters
-  const [timePeriod, setTimePeriod] = useState("default");
+  const { user } = useAuth();
+  const [timePeriod, setTimePeriod] = useState("yearly");
 
   const handleTimePeriodChange = (event) => {
     setTimePeriod(event.target.value);
-  }
-
+  };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome to your dashboard!</p>
-      <label htmlFor="timeSelection"> Filter by Time Period </label>
-        <select name = "timeSelection" id = "timeSelection" value={timePeriod} onChange={handleTimePeriodChange}>
-          <option value="default">Select Time Period</option>
-          <option>Yearly</option>
-          <option>Monthly</option>
-          <option>Weekly</option>
-        </select>
-      <p>Welcome, user with ID: {uid}</p>
-      <Visualizations data = {{userID: uid, time:timePeriod}}/>
+    <div className="dashboard-page">
+      <header className="dashboard-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p className="dashboard-subtitle">
+            Track your cash flow and category trends over time.
+          </p>
+        </div>
+        <div className="dashboard-control">
+          <label htmlFor="timeSelection">Time Period</label>
+          <select
+            name="timeSelection"
+            id="timeSelection"
+            value={timePeriod}
+            onChange={handleTimePeriodChange}
+          >
+            <option value="yearly">Yearly</option>
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+          </select>
+        </div>
+      </header>
+      <p className="dashboard-user">Logged in as {user?.id}</p>
+      <Visualizations data={{ userID: user?.id, time: timePeriod }} />
     </div>
   );
 }

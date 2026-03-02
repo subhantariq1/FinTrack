@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import supabase from "../client";
 
 const ExpenseChart = (props) => {
@@ -14,7 +22,11 @@ const ExpenseChart = (props) => {
       let dateFrom;
 
       if (timePeriod === "yearly") {
-        dateFrom = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+        dateFrom = new Date(
+          today.getFullYear() - 1,
+          today.getMonth(),
+          today.getDate()
+        );
       } else if (timePeriod === "weekly") {
         dateFrom = new Date(today);
         dateFrom.setDate(today.getDate() - 7);
@@ -25,20 +37,25 @@ const ExpenseChart = (props) => {
       }
 
       // Format and display date range
-      const formatDate = (date) => date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+      const formatDate = (date) =>
+        date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
       const rangeText =
         timePeriod === "yearly"
-          ? `${dateFrom.toLocaleDateString("en-US", { month: "short", year: "numeric" })} – ${today.toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
+          ? `${dateFrom.toLocaleDateString("en-US", { month: "short", year: "numeric" })} - ${today.toLocaleDateString("en-US", { month: "short", year: "numeric" })}`
           : timePeriod === "monthly"
-          ? `${formatDate(dateFrom)} – ${formatDate(today)}`
-          : `${formatDate(dateFrom)} – ${formatDate(today)}`;
+            ? `${formatDate(dateFrom)} - ${formatDate(today)}`
+            : `${formatDate(dateFrom)} - ${formatDate(today)}`;
       setDateRangeText(rangeText);
 
       const { data, error } = await supabase
         .from("Transactions Log")
         .select("date, amount")
         .eq("userID", uid)
-        .gte("date", dateFrom.toISOString())
+        .gte("date", dateFrom.toISOString().split("T")[0])
         .lt("amount", 0); // Only negative amounts (expenses)
 
       if (error) {
@@ -46,9 +63,15 @@ const ExpenseChart = (props) => {
         return;
       }
 
+      if (!data || data.length === 0) {
+        setExpenses([]);
+        return;
+      }
+
       const grouped = {};
       data.forEach(({ date, amount }) => {
         const d = new Date(date);
+        const numericAmount = Number(amount);
         let key;
 
         if (timePeriod === "yearly") {
@@ -59,13 +82,15 @@ const ExpenseChart = (props) => {
           key = d.getDate().toString().padStart(2, "0");
         }
 
-        grouped[key] = (grouped[key] || 0) + amount;
+        grouped[key] = (grouped[key] || 0) + numericAmount;
       });
 
-      const formattedData = Object.entries(grouped).map(([label, total_amount]) => ({
-        label,
-        total_amount,
-      }));
+      const formattedData = Object.entries(grouped).map(
+        ([label, total_amount]) => ({
+          label,
+          total_amount: Math.abs(total_amount),
+        })
+      );
 
       setExpenses(formattedData);
     };
@@ -74,17 +99,29 @@ const ExpenseChart = (props) => {
   }, [props.data.time, props.data.userID]);
 
   return (
-    <div>
-      <h2>Expenses Overview ({props.data.time})</h2>
-      <p>{dateRangeText}</p> {/* 👈 Shows actual range */}
-      <BarChart width={1000} height={300} data={expenses}>
-        <XAxis dataKey="label" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar type="monotone" dataKey="total_amount" stroke="#8884d8" />
-      </BarChart>
-    </div>
+    <article className="chart-card">
+      <header className="chart-card-header">
+        <div>
+          <h2 className="chart-title">Expenses Overview ({props.data.time})</h2>
+          <p className="chart-range">{dateRangeText}</p>
+        </div>
+      </header>
+      {expenses.length > 0 ? (
+        <div className="chart-wrap">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={expenses}>
+              <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+              <YAxis domain={["auto", "auto"]} tick={{ fontSize: 12 }} />
+              <Tooltip />
+              <Legend />
+              <Bar type="monotone" dataKey="total_amount" fill="#0f766e" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <p className="chart-empty">No expense records found for this range.</p>
+      )}
+    </article>
   );
 };
 

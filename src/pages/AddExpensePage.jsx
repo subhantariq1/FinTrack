@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import supabase from "../client";
+import "./AddEntryPage.css";
 
 function AddExpensePage() {
   const { uid } = useParams(); // Extract the userID from the URL
@@ -12,7 +13,14 @@ function AddExpensePage() {
     category: "Food", // Default category set to 'Food'
   });
 
-  const expenseCategories = ["Food", "Transport", "Utilities", "Entertainment", "Health", "Other"];
+  const expenseCategories = [
+    "Food",
+    "Transport",
+    "Utilities",
+    "Entertainment",
+    "Health",
+    "Other",
+  ];
 
   const createPost = async (event) => {
     event.preventDefault();
@@ -25,14 +33,12 @@ function AddExpensePage() {
       return; // Stop the form submission
     }
 
-    const { data, error } = await supabase
-      .from("Transactions Log")
-      .insert({
-        description: log.description,
-        amount: log.amount,
-        date: log.date,
-        category: log.category,
-      });
+    const { data, error } = await supabase.from("Transactions Log").insert({
+      description: log.description,
+      amount: log.amount,
+      date: log.date,
+      category: log.category,
+    });
 
     if (error) {
       console.error("Error inserting data:", error.message);
@@ -50,11 +56,12 @@ function AddExpensePage() {
   };
 
   return (
-    <div>
-      <h1>Add Expense</h1>
-      <p>Adding expense for user with ID: {uid}</p>
-      <form onSubmit={createPost}>
-        <div>
+    <section className="entry-page">
+      <div className="entry-card">
+        <h1>Add Expense</h1>
+        <p className="entry-subtitle">Use negative amounts for expenses so totals stay balanced.</p>
+        <form onSubmit={createPost} className="entry-form">
+          <div className="entry-field">
           <label htmlFor="description">Description:</label>
           <input
             type="text"
@@ -64,8 +71,8 @@ function AddExpensePage() {
             required
             onChange={handleChange}
           />
-        </div>
-        <div>
+          </div>
+          <div className="entry-field">
           <label htmlFor="amount">Amount:</label>
           <input
             type="number"
@@ -75,8 +82,8 @@ function AddExpensePage() {
             required
             onChange={handleChange}
           />
-        </div>
-        <div>
+          </div>
+          <div className="entry-field">
           <label htmlFor="date">Date:</label>
           <input
             type="date"
@@ -86,20 +93,28 @@ function AddExpensePage() {
             required
             onChange={handleChange}
           />
-        </div>
-        <div>
+          </div>
+          <div className="entry-field">
           <label htmlFor="category">Category:</label>
-          <select name="category" id="category" value={log.category} onChange={handleChange}>
+          <select
+            name="category"
+            id="category"
+            value={log.category}
+            onChange={handleChange}
+          >
             {expenseCategories.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
             ))}
           </select>
-        </div>
-        <button type="submit">Add Expense</button>
-      </form>
-    </div>
+          </div>
+          <button type="submit" className="entry-submit">
+            Add Expense
+          </button>
+        </form>
+      </div>
+    </section>
   );
 }
 

@@ -36,16 +36,19 @@ function LoginPage() {
       <h1>Login</h1>
       <form onSubmit = {handleLogin} className = "form-container">
         <div className ="input-field">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email:</label><br />
           <input type="email" id="email" name="email" value={email} onChange={(e) => {setEmail(e.target.value)}}required />
         </div>
         <div className ="input-field">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password:</label> <br />
           <input type="password" id="password" name="password" value={password} onChange={(e) => {setPassword(e.target.value)}} required />
         </div>
           <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <button> <Link to="/signup" className="link">Sign Up</Link></button></p>
+      <div className="login-footer">
+        <p>Don't have an account?</p>
+        <Link to="/signup" className="login-signup-btn">Sign Up</Link>
+      </div>
     </div>
   );
 }

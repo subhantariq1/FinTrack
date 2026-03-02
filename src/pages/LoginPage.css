@@ -1,19 +1,87 @@
 .login-container{
     display:flex;
-    align-items: center;
     flex-direction: column;
-    justify-content: center; /* Center children vertically */
-    height: 80vh;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 170px);
+    gap: 14px;
 }
 
-.form-container{
-    display:flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
+.login-container h1 {
+    text-align: center; /* Center the heading */
+    font-size: 2rem; /* Font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
 }
 
-input{
-    margin-left: 1rem;
+.login-container form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack form elements vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 15px; /* Space between form elements */
+    width: min(420px, 100%);
+}
+.login-container input {
+    width: 100%; /* Full width of the container */
+    max-width: 400px; /* Limit the maximum width */
+    padding: 10px; /* Padding for better touch targets */
+    border: 1px solid #ccc; /* Light border for inputs */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Font size for inputs */
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Font size for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    color: #f0fdfa;
+    background-color: var(--brand);
+    font-weight: 700;
+}
+
+.login-container button:hover {
+    background-color: var(--brand-strong);
+}
+
+
+.input-field {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack label and input vertically */
+    width: 100%; /* Full width of the container */
+    max-width: 400px; /* Limit the maximum width */
+    margin: 0 auto; /* Center the input field */
+}
+
+.input-field label {
+    text-align: left; /* Align text to the left */
+    display: block; /* Ensure the label takes up its own line */
+    margin-bottom: 5px; /* Add spacing below the label */
+}
+
+.login-footer {
+    width: min(420px, 100%);
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+}
+
+.login-footer p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.login-signup-btn {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.login-signup-btn:hover {
+    background-color: rgba(15, 118, 110, 0.1);
 }
