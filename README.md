@@ -13,6 +13,13 @@ Fintrack is a budgeting app that lets you log in, track your expenses and income
 - [React](https://reactjs.org/)
 - [Supabase](https://supabase.com/)
 
+## Purpose
+
+The purpose of this project was to learn about CRUD operations and getting started with database design. I also learned about implementing Auth into web apps.
+
+Other than that I did wanted to have some sort of tool keep track of expenses. For next steps I'd include a way integrate
+some image processing and classification models to automate some of the logging.
+
 ## Getting Started
 
 ### Prerequisites
@@ -23,17 +30,20 @@ Fintrack is a budgeting app that lets you log in, track your expenses and income
 ### Installation
 
 1. Clone the repository:
+
    ```sh
    git clone https://github.com/yourusername/fintrack.git
    cd fintrack
    ```
 
 2. Install dependencies:
+
    ```sh
    npm install
    ```
 
 3. Create a `.env` file in the root directory and add your Supabase API key:
+
    ```
    REACT_APP_SUPABASE_URL=your-supabase-url
    REACT_APP_SUPABASE_ANON_KEY=your-supabase-anon-key
@@ -44,14 +54,6 @@ Fintrack is a budgeting app that lets you log in, track your expenses and income
    npm run dev
    ```
 
-## Screenshots
-
-<!-- Add screenshots here -->
-
 ## Authors
 
 - [subhantariq1](https://github.com/subhantariq1)
-
----
-
-Feel free to contribute or raise issues!
